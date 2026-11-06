@@ -1,0 +1,25 @@
+{
+  "openApiPath": "https://localhost:7144/openapi/v1.json",
+  "namespace": "ApiService",
+  "outputFolder": "Generated",
+  "outputFilename": "Refitter.g.cs",
+  "multipleInterfaces": "ByTag",
+  "generateContracts": true,
+  "useCancellationTokens": true,
+  "generateXmlDocCodeComments": true,
+  "returnIApiResponse": false,
+  "ignoredOperationHeaders": [ "hhh" ],
+  "codeGeneratorSettings": {
+      "inlineJsonConverters": false,
+      "enumNameGenerator": "Default",
+      "generateDataAnnotations": true,
+      "useExtensionData": true,
+      "handleReferences": true,
+      "generateDefaultValues": true,
+      "typeNameGenerator": "Default",
+      "propertyNameGenerator": "Default",
+      "processSchemaReferences": true,
+      "generateEnumMappingDescription": true,
+      "dateTimeType": "System.DateTime"
+    }
+}
