@@ -3,23 +3,25 @@
   "namespace": "ApiService",
   "outputFolder": "Generated",
   "outputFilename": "Refitter.g.cs",
-  "multipleInterfaces": "ByTag",
   "generateContracts": true,
   "useCancellationTokens": true,
   "generateXmlDocCodeComments": true,
   "returnIApiResponse": false,
-  "ignoredOperationHeaders": [ "hhh" ],
+  "naming": {
+    "interfaceName": "IPizzaApi"
+  },
   "codeGeneratorSettings": {
-      "inlineJsonConverters": false,
-      "enumNameGenerator": "Default",
-      "generateDataAnnotations": true,
-      "useExtensionData": true,
-      "handleReferences": true,
-      "generateDefaultValues": true,
-      "typeNameGenerator": "Default",
-      "propertyNameGenerator": "Default",
-      "processSchemaReferences": true,
-      "generateEnumMappingDescription": true,
-      "dateTimeType": "System.DateTime"
-    }
+    "inlineJsonConverters": false,
+    "enumNameGenerator": "Default",
+    "generateDataAnnotations": true,
+    "useExtensionData": true,
+    "handleReferences": true,
+    "generateDefaultValues": true,
+    "typeNameGenerator": "Default",
+    "propertyNameGenerator": "Default",
+    "processSchemaReferences": true,
+    "generateEnumMappingDescription": true,
+    "dateTimeType": "System.DateTime",
+    "multipleInterfaces": false
+  }
 }

@@ -13,9 +13,9 @@ using System.Threading.Tasks;
 
 namespace ApiService
 {
-    /// <summary>Operations for PizzaApi.</summary>
+    /// <summary>PizzaApi | v1</summary>
     [System.CodeDom.Compiler.GeneratedCode("Refitter", "2.3.0.0")]
-    public partial interface IPizzaApiApi
+    public partial interface IPizzaApiv1
     {
         /// <param name="cancellationToken">The cancellation token to cancel the request.</param>
         /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
@@ -48,6 +48,7 @@ namespace ApiService
         Task Refresh([Body] RefreshUserRequestDto body, CancellationToken cancellationToken = default);
 
     }
+
 
 }
 
