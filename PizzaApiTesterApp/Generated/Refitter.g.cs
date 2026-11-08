@@ -26,27 +26,39 @@ namespace ApiService
 
         /// <param name="body">body parameter</param>
         /// <param name="cancellationToken">The cancellation token to cancel the request.</param>
-        /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
-        /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
-        [Headers("Content-Type: application/json")]
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">
+        /// Thrown when the request returns a non-success status code:
+        /// <list type="table">
+        /// <listheader>
+        /// <term>Status</term>
+        /// <description>Description</description>
+        /// </listheader>
+        /// <item>
+        /// <term>400</term>
+        /// <description>Bad Request</description>
+        /// </item>
+        /// </list>
+        /// </exception>
+        [Headers("Accept: application/json", "Content-Type: application/json")]
         [Post("/auth/create")]
-        Task Create([Body] CreateUserRequestDto body, CancellationToken cancellationToken = default);
+        Task<string> Create([Body] CreateUserRequestDto body, CancellationToken cancellationToken = default);
 
         /// <param name="body">body parameter</param>
         /// <param name="cancellationToken">The cancellation token to cancel the request.</param>
-        /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
-        [Headers("Content-Type: application/json")]
+        [Headers("Accept: application/json", "Content-Type: application/json")]
         [Post("/auth/login")]
-        Task Login([Body] LoginUserRequestDto body, CancellationToken cancellationToken = default);
+        Task<LoginUserResponseDto> Login([Body] LoginUserRequestDto body, CancellationToken cancellationToken = default);
 
         /// <param name="body">body parameter</param>
         /// <param name="cancellationToken">The cancellation token to cancel the request.</param>
-        /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
-        [Headers("Content-Type: application/json")]
+        [Headers("Accept: application/json", "Content-Type: application/json")]
         [Post("/auth/refresh")]
-        Task Refresh([Body] RefreshUserRequestDto body, CancellationToken cancellationToken = default);
+        Task<LoginUserResponseDto> Refresh([Body] RefreshUserRequestDto body, CancellationToken cancellationToken = default);
 
     }
 
@@ -134,6 +146,29 @@ namespace ApiService
         [JsonPropertyName("password")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public string Password { get; set; }
+
+        private IDictionary<string, object> _additionalProperties;
+
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.7.1.0 (NJsonSchema v11.6.1.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class LoginUserResponseDto
+    {
+
+        [JsonPropertyName("jwt")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string Jwt { get; set; }
+
+        [JsonPropertyName("refreshToken")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string RefreshToken { get; set; }
 
         private IDictionary<string, object> _additionalProperties;
 
