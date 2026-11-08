@@ -20,5 +20,10 @@ public partial class AuthTestsPageViewModel(IPizzaApiv1 pizzaApi) : ObservableOb
 	{
 		var ingregients = await pizzaApi.Ingredients();
 	}
+	[RelayCommand]
+	private async Task LoginUser()
+	{
+		var logged = await pizzaApi.Login(new LoginUserRequestDto { Name="Kulfon", Password="haslo"});
+	}
 
 }

@@ -6,6 +6,7 @@ namespace PizzaApiTesterApp;
 
 public class AuthHeaderHandler(TokenStorage tokenStorage, IHttpClientFactory factory) : System.Net.Http.DelegatingHandler
 {
+    // So this is triggered each time I connect with api
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
         return await base.SendAsync(request, cancellationToken);

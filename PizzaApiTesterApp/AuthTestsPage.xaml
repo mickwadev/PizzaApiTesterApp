@@ -8,5 +8,6 @@
     <VerticalStackLayout>
         <Label Text="Auth tests page"  />
         <Button Text="Pizza ^_^" Command="{Binding GetIngredientsCommand}"/>
+        <Button Text="Login Kulfon ^_^" Command="{Binding LoginUserCommand}"/>
     </VerticalStackLayout>
 </ContentPage>
