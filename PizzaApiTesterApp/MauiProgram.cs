@@ -26,12 +26,12 @@ namespace PizzaApiTesterApp
             builder.Services.AddTransientWithShellRoute<AuthTestsPage,AuthTestsPageViewModel>(nameof(AuthTestsPage));
             string url = "https://localhost:7144";
             
-          //  builder.Services.AddTransient<AuthHeaderHandler>();
+            builder.Services.AddTransient<AuthHeaderHandler>();
             builder.Services.AddHttpClient("refresh", c => c.BaseAddress = new Uri(url));
 
             builder.Services.AddRefitClient<IPizzaApiv1>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(url))
-            ;//    .AddHttpMessageHandler<AuthHeaderHandler>();
+                .AddHttpMessageHandler<AuthHeaderHandler>();
 
             return builder.Build();
         }
