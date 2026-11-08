@@ -20,7 +20,8 @@ namespace PizzaApiTesterApp
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
-
+            builder.Services.AddSingleton<TokenStorage>();
+            builder.Services.AddTransientWithShellRoute<AuthTestsPage,AuthTestsPageViewModel>(nameof(AuthTestsPage));
             return builder.Build();
         }
     }

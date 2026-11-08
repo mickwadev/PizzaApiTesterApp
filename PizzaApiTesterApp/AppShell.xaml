@@ -7,8 +7,8 @@
     Title="PizzaApiTesterApp">
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Title="Auth tests"
+        ContentTemplate="{DataTemplate local:AuthTestsPage}"
+        Route="AuthTestsPage" />
 
 </Shell>
