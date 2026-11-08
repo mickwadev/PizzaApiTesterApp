@@ -18,10 +18,11 @@ namespace ApiService
     public partial interface IPizzaApiv1
     {
         /// <param name="cancellationToken">The cancellation token to cancel the request.</param>
-        /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
+        [Headers("Accept: application/json")]
         [Get("/pizza/ingredients")]
-        Task Ingredients(CancellationToken cancellationToken = default);
+        Task<ICollection<IngredientDto>> Ingredients(CancellationToken cancellationToken = default);
 
         /// <param name="body">body parameter</param>
         /// <param name="cancellationToken">The cancellation token to cancel the request.</param>
@@ -91,6 +92,25 @@ namespace ApiService
         [JsonPropertyName("password")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public string Password { get; set; }
+
+        private IDictionary<string, object> _additionalProperties;
+
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.7.1.0 (NJsonSchema v11.6.1.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class IngredientDto
+    {
+
+        [JsonPropertyName("name")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string Name { get; set; }
 
         private IDictionary<string, object> _additionalProperties;
 
