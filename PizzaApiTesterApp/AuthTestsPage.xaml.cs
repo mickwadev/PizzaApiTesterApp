@@ -1,16 +1,24 @@
+using ApiService;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace PizzaApiTesterApp;
 
 public partial class AuthTestsPage : ContentPage
 {
-	public AuthTestsPage()
+	public AuthTestsPage(AuthTestsPageViewModel vm)
 	{
 		InitializeComponent();
+		BindingContext = vm;
 	}
 }
 
-public partial class AuthTestsPageViewModel : ObservableObject
+public partial class AuthTestsPageViewModel(IPizzaApiv1 pizzaApi) : ObservableObject
 {
-    
+	[RelayCommand]
+	private async Task GetIngredients()
+	{
+		var ingregients = await pizzaApi.Ingredients();
+	}
+
 }

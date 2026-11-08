@@ -2,8 +2,11 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PizzaApiTesterApp.AuthTestsPage"
+             xmlns:vm="clr-namespace:PizzaApiTesterApp"
+             x:DataType="vm:AuthTestsPageViewModel"
              Title="AuthTestsPage">
     <VerticalStackLayout>
         <Label Text="Auth tests page"  />
+        <Button Text="Pizza ^_^" Command="{Binding GetIngredientsCommand}"/>
     </VerticalStackLayout>
 </ContentPage>

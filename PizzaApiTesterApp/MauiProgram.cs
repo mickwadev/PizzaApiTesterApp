@@ -1,5 +1,7 @@
-﻿using CommunityToolkit.Maui;
+﻿using ApiService;
+using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using Refit;
 
 namespace PizzaApiTesterApp
 {
@@ -22,6 +24,15 @@ namespace PizzaApiTesterApp
 #endif
             builder.Services.AddSingleton<TokenStorage>();
             builder.Services.AddTransientWithShellRoute<AuthTestsPage,AuthTestsPageViewModel>(nameof(AuthTestsPage));
+            string url = "https://localhost:7144";
+            
+          //  builder.Services.AddTransient<AuthHeaderHandler>();
+            builder.Services.AddHttpClient("refresh", c => c.BaseAddress = new Uri(url));
+
+            builder.Services.AddRefitClient<IPizzaApiv1>()
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(url))
+            ;//    .AddHttpMessageHandler<AuthHeaderHandler>();
+
             return builder.Build();
         }
     }
