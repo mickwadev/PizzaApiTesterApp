@@ -72,6 +72,7 @@
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
 		<PackageReference Include="Refit" Version="16.4.0" />
 		<PackageReference Include="Refit.HttpClientFactory" Version="16.4.0" />
+		<PackageReference Include="Refit.Reflection" Version="16.4.0" />
 	</ItemGroup>
 
 	<ItemGroup>
