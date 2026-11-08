@@ -13,7 +13,8 @@ public partial class AuthTestsPage : ContentPage
 	}
 }
 
-public partial class AuthTestsPageViewModel(IPizzaApiv1 pizzaApi) : ObservableObject
+public partial class AuthTestsPageViewModel(IPizzaApiv1 pizzaApi,
+	TokenStorage tokenStorage) : ObservableObject
 {
 	[RelayCommand]
 	private async Task GetIngredients()
@@ -24,6 +25,7 @@ public partial class AuthTestsPageViewModel(IPizzaApiv1 pizzaApi) : ObservableOb
 	private async Task LoginUser()
 	{
 		var logged = await pizzaApi.Login(new LoginUserRequestDto { Name="Kulfon", Password="haslo"});
+		await tokenStorage.StoreTokens(new(logged.Jwt,logged.RefreshToken));
 	}
 
 }
