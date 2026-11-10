@@ -5,9 +5,10 @@
              xmlns:vm="clr-namespace:PizzaApiTesterApp"
              x:DataType="vm:AuthTestsPageViewModel"
              Title="AuthTestsPage">
-    <VerticalStackLayout>
-        <Label Text="Auth tests page"  />
+    <VerticalStackLayout Spacing="5">
+        <Label Text="{Binding Info}"/>
         <Button Text="Pizza ^_^" Command="{Binding GetIngredientsCommand}"/>
         <Button Text="Login Kulfon ^_^" Command="{Binding LoginUserCommand}"/>
+        <Button Text="test" Command="{Binding FactoryTestCommand}"/>
     </VerticalStackLayout>
 </ContentPage>

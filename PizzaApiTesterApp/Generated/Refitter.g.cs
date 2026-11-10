@@ -24,6 +24,20 @@ namespace ApiService
         [Get("/pizza/ingredients")]
         Task<ICollection<IngredientDto>> Ingredients(CancellationToken cancellationToken = default);
 
+        /// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
+        [Headers("Accept: application/json")]
+        [Get("/pizza/panmors")]
+        Task<string> Panmors(CancellationToken cancellationToken = default);
+
+        /// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
+        [Headers("Accept: application/json")]
+        [Get("/pizza/ziemniaczek")]
+        Task<string> Ziemniaczek(CancellationToken cancellationToken = default);
+
         /// <param name="body">body parameter</param>
         /// <param name="cancellationToken">The cancellation token to cancel the request.</param>
         /// <returns>OK</returns>
