@@ -30,13 +30,21 @@ public class AuthHeaderHandlerWith401(TokenStorage tokenStorage,
     ):DelegatingHandler
 {
     // To się wywoła zanim pójdzie request do api
-    protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
         if(IsAuthEndpoint(request))
         {
-            return base.SendAsync(request, cancellationToken);
+            return await base.SendAsync(request, cancellationToken);
         }
-        return base.SendAsync(request, cancellationToken);
+        // jeśli tu jesteśmy, to znaczy, że to nie jest /login i /refresh.
+        // Wysyłamy zatem ten request i sprawdzamy co przyjdzie:
+        HttpResponseMessage response = await base.SendAsync(request, cancellationToken);
+        if (response.StatusCode != System.Net.HttpStatusCode.Unauthorized)
+        {
+            return response;
+           HttpClient refresher = httpClientFactory.CreateClient("refresher");
+        }
+        return response;
     }
 
     // po piersze oba te endpointy nie potrzebują jwt. /auth/refresh potrzebuje tego refresh tokena., login nic nie potrzebuje

@@ -12,11 +12,11 @@ internal static class HttpRequestFun
     {
         public void Testowo(string url)
         {
-            mauiAppBuilder.Services.AddTransient<TestDelegateHandler>();
+            mauiAppBuilder.Services.AddTransient<TestDelegatingHandler>();
 
             mauiAppBuilder.Services
                 .AddHttpClient("PanMors", client => client.BaseAddress = new Uri(url))
-                .AddHttpMessageHandler<TestDelegateHandler>();
+                .AddHttpMessageHandler<TestDelegatingHandler>();
         }
     }
 }

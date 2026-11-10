@@ -23,6 +23,10 @@ internal class TestDelegatingHandler : DelegatingHandler
         response.EnsureSuccessStatusCode();
         response2.EnsureSuccessStatusCode();
 
-        return await base.SendAsync(request, cancellationToken);
+        // return await base.SendAsync(request, cancellationToken);
+        var response3 = await base.SendAsync(request, cancellationToken);
+        response3.Content = new StringContent("Ale numer...");
+        return response3;
+
     }
 }
