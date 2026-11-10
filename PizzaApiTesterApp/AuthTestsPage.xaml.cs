@@ -22,7 +22,15 @@ public partial class AuthTestsPageViewModel(IPizzaApiv1 pizzaApi,
 	[RelayCommand]
 	private async Task GetIngredients()
 	{
-		var ingregients = await pizzaApi.Ingredients();
+		try
+		{
+			ICollection<IngredientDto> ingregients = await pizzaApi.Ingredients();
+			Info = ingregients.First().Name;
+		}
+		catch (Exception ex) 
+		{ 
+			Info = ex.Message;
+		}
 	}
 	[RelayCommand]
 	private async Task LoginUser()

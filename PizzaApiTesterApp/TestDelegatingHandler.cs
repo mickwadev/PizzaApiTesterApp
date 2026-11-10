@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PizzaApiTesterApp.Extenstions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,7 +9,13 @@ internal class TestDelegatingHandler : DelegatingHandler
 {
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
-        return await Zabawy1(request, cancellationToken);
+        return await Zabawy2(request, cancellationToken);
+    }
+
+    private async Task<HttpResponseMessage> Zabawy2(HttpRequestMessage request, CancellationToken cancellationToken)
+    {
+        HttpRequestMessage clone = await request.CopyRequestAsync();
+        return await base.SendAsync(clone, cancellationToken);
     }
 
     // Wysyłanie tego samego kilka razy w tym przypadku działa, ale ogólnie może się wywalić i lepiej sklonować request

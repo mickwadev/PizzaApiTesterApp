@@ -1,5 +1,6 @@
 ﻿using ApiService;
 using Microsoft.AspNetCore.SignalR;
+using PizzaApiTesterApp.Extenstions;
 using System;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
@@ -25,7 +26,8 @@ public class AuthHeaderHandler(TokenStorage tokenStorage) : System.Net.Http.Dele
     }
 }
 
-public class AuthHeaderHandlerWith401(TokenStorage tokenStorage,
+public class AuthHeaderHandlerWith401(
+    TokenStorage tokenStorage,
     IHttpClientFactory httpClientFactory // ← this is used to ask for new tokens, this HttpClient wont have this handler
     ):DelegatingHandler
 {
@@ -36,16 +38,35 @@ public class AuthHeaderHandlerWith401(TokenStorage tokenStorage,
         {
             return await base.SendAsync(request, cancellationToken);
         }
+
+        var tokens = await tokenStorage.GetTokens();
+
+        HttpRequestMessage copy = await request.CopyRequestAsync();
+        request.Headers.Authorization = new AuthenticationHeaderValue("bearer", tokens.jwt);
+
         // jeśli tu jesteśmy, to znaczy, że to nie jest /login i /refresh.
         // Wysyłamy zatem ten request i sprawdzamy co przyjdzie:
         HttpResponseMessage response = await base.SendAsync(request, cancellationToken);
         if (response.StatusCode != System.Net.HttpStatusCode.Unauthorized)
         {
+            // poszło gładko, lub coś się wywaliło, ale dostęp jest czyli token aktualny:
             return response;
-           HttpClient refresher = httpClientFactory.CreateClient("refresher");
         }
+        // JWT nieaktualny, zatem próbujemy zdobyć nowe tokeny
+
+        Tokens newTokens = await GetNewTokensAsync(tokens.refreshToken);
+        if (newTokens != null)
+        {
+            await tokenStorage.StoreTokens(newTokens);
+            copy.Headers.Authorization = new AuthenticationHeaderValue("bearer", newTokens.jwt);
+            return await base.SendAsync(copy, cancellationToken);
+           
+        }
+
         return response;
     }
+
+    
 
     // po piersze oba te endpointy nie potrzebują jwt. /auth/refresh potrzebuje tego refresh tokena., login nic nie potrzebuje
     // ale ważniejsze jest to, że jeśli login lub refresh zwrócą 401
@@ -60,12 +81,21 @@ public class AuthHeaderHandlerWith401(TokenStorage tokenStorage,
     // ale z użyciem HttpClient bez tego handlera.
     // co wysyłam? refresh token.
     // co dostaję? jwt oraz nowy refresh token lub 401 jeśli refresh token jest za stary
-    private async Task GetNewTokens(string refreshToken)
+    private async Task<Tokens> GetNewTokensAsync(string refreshToken)
     {
-        var client = httpClientFactory.CreateClient("refresher");
+        HttpClient client = httpClientFactory.CreateClient("refresher");
 
         // post as json ułatwia wysyłanie,
-        var response = await client.PostAsJsonAsync("/auth/refresh", new RefreshUserRequestDto() { RefreshToken = refreshToken });
+        HttpResponseMessage response = await client.PostAsJsonAsync("/auth/refresh", new RefreshUserRequestDto() { RefreshToken = refreshToken });
+        if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+        {
+            // np. refresh token jest za stary lub błędny
+          //  tokenStorage.ClearTokens();
+            return null;
+        }
 
+        response.EnsureSuccessStatusCode();
+        LoginUserResponseDto content = await response.Content.ReadFromJsonAsync<LoginUserResponseDto>();
+        return new Tokens(content.Jwt, content.RefreshToken);
     }
 }
