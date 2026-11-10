@@ -74,6 +74,19 @@ namespace ApiService
         [Post("/auth/refresh")]
         Task<LoginUserResponseDto> Refresh([Body] RefreshUserRequestDto body, CancellationToken cancellationToken = default);
 
+        /// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+        /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
+        /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
+        [Delete("/auth/delete")]
+        Task Delete(CancellationToken cancellationToken = default);
+
+        /// <param name="cancellationToken">The cancellation token to cancel the request.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
+        [Headers("Accept: application/json")]
+        [Get("/auth/roles")]
+        Task<ICollection<UserRoleResponseDto>> Roles(CancellationToken cancellationToken = default);
+
     }
 
 
@@ -114,6 +127,11 @@ namespace ApiService
         [JsonPropertyName("name")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public string Name { get; set; }
+
+        [JsonPropertyName("roleId")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.ComponentModel.DataAnnotations.RegularExpression(@"^-?(?:0|[1-9]\d*)$")]
+        public int RoleId { get; set; }
 
         [JsonPropertyName("password")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
@@ -202,6 +220,30 @@ namespace ApiService
         [JsonPropertyName("refreshToken")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public string RefreshToken { get; set; }
+
+        private IDictionary<string, object> _additionalProperties;
+
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.7.1.0 (NJsonSchema v11.6.1.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class UserRoleResponseDto
+    {
+
+        [JsonPropertyName("id")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.ComponentModel.DataAnnotations.RegularExpression(@"^-?(?:0|[1-9]\d*)$")]
+        public int Id { get; set; }
+
+        [JsonPropertyName("name")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string Name { get; set; }
 
         private IDictionary<string, object> _additionalProperties;
 

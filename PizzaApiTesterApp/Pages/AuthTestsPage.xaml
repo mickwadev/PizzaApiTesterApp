@@ -3,14 +3,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PizzaApiTesterApp.AuthTestsPage"
              xmlns:vm="clr-namespace:PizzaApiTesterApp"
+             xmlns:dtos="clr-namespace:ApiService"
              x:DataType="vm:AuthTestsPageViewModel"
              Title="AuthTestsPage">
     <VerticalStackLayout Spacing="5">
         <Label Text="{Binding Info}"/>
         <Entry Text="{Binding UserName}" WidthRequest="222"/>
         <Entry Text="{Binding Password}" WidthRequest="222"/>
+        
+        <Picker ItemsSource="{Binding Roles}" Title="Pick role" WidthRequest="222"
+                SelectedItem="{Binding SelectedRole}">
+            <Picker.ItemDisplayBinding>
+                <Binding x:DataType="dtos:UserRoleResponseDto" Path="DisplayName"/>
+            </Picker.ItemDisplayBinding>
+        </Picker>
+
         <Button Text="Create user" Command="{Binding CreateUserCommand}"/>
         <Button Text="Login user" Command="{Binding LoginUserCommand}"/>
+        <Button Text="Get users roles" Command="{Binding GetAvailableRolesCommand}"/>
         <Button Text="test" Command="{Binding FactoryTestCommand}"/>
     </VerticalStackLayout>
 </ContentPage>
