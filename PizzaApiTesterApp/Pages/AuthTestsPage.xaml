@@ -7,8 +7,10 @@
              Title="AuthTestsPage">
     <VerticalStackLayout Spacing="5">
         <Label Text="{Binding Info}"/>
-        <Button Text="Pizza ^_^" Command="{Binding GetIngredientsCommand}"/>
-        <Button Text="Login Kulfon ^_^" Command="{Binding LoginUserCommand}"/>
+        <Entry Text="{Binding UserName}" WidthRequest="222"/>
+        <Entry Text="{Binding Password}" WidthRequest="222"/>
+        <Button Text="Create user" Command="{Binding CreateUserCommand}"/>
+        <Button Text="Login user" Command="{Binding LoginUserCommand}"/>
         <Button Text="test" Command="{Binding FactoryTestCommand}"/>
     </VerticalStackLayout>
 </ContentPage>

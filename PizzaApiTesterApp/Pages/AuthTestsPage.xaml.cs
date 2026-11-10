@@ -19,6 +19,12 @@ public partial class AuthTestsPageViewModel(IPizzaApiv1 pizzaApi,
 {
 	[ObservableProperty]
 	private string _info;
+
+	[ObservableProperty]
+	private string _userName;
+
+	[ObservableProperty]
+	private string _password;
 	[RelayCommand]
 	private async Task GetIngredients()
 	{
@@ -32,10 +38,25 @@ public partial class AuthTestsPageViewModel(IPizzaApiv1 pizzaApi,
 			Info = ex.Message;
 		}
 	}
+
+	[RelayCommand]
+	private async Task CreateUser()
+	{
+		try
+		{
+			var result = await pizzaApi.Create(new CreateUserRequestDto() { Name = UserName, Password = Password });
+			Info = result;
+		}
+		catch (Exception ex) 
+		{
+			Info = ex.Message;
+		}
+	}
+
 	[RelayCommand]
 	private async Task LoginUser()
 	{
-		var logged = await pizzaApi.Login(new LoginUserRequestDto { Name="Kulfon", Password="haslo"});
+		var logged = await pizzaApi.Login(new LoginUserRequestDto { Name=UserName, Password=Password});
 		await tokenStorage.StoreTokens(new(logged.Jwt,logged.RefreshToken));
 	}
 
